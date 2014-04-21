@@ -16,6 +16,7 @@ int main(int argc, char* argv[]){
 	//Register all the needed types in QML.
 	qmlRegisterType<GraphicalNode>("EasyGraph", 1,0, "GraphicalNode");
 	qmlRegisterType<FloatingMenu>("EasyGraph", 1,0, "FloatingMenu");
+	qmlRegisterType<ActionIndicator>("EasyGraph", 1,0, "ActionIndicator");
 
 
 	//The only window known as QDeCView in QML.
