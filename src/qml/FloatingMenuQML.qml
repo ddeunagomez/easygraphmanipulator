@@ -50,7 +50,10 @@ FloatingMenu {
         } else if(target.x >= width) { //almost overriden by the node
             x = 0;
         } else { //overriden by the node
-            x =  target.x + target.width + PADDING;
+            if(hLayout)
+                x = 0
+            else
+                x =  target.x + target.width + PADDING;
         }
         if(target.y >= 0) {
             y = target.y;
