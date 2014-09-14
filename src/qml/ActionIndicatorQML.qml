@@ -2,15 +2,31 @@ import EasyGraph 1.0
 import QtQuick 2.0
 
 ActionIndicator {
-	id: root
-	visible: true;
-	z: 1000
-	state: "disabled"
+    id: root
+    z: 1000
+
+    property bool enabled: false
+    function show() {
+        root.state = "enabled"
+        enabled = true
+    }
+    function hide() {
+        root.state = "disabled"
+        enabled = false
+    }
+    function toggle() {
+        if (enabled)
+            hide()
+        else
+            show()
+    }
+
+
+    state: "disabled"
     states: [
         State{
-            name: "selection"
+            name: "enabled"
             PropertyChanges{target: root; visible: true}
-            PropertyChanges{target: root; degrees: degrees + 16*360}
         },
         State{
             name: "disabled"
@@ -18,15 +34,11 @@ ActionIndicator {
         }
     ]
 
-
-	Behavior on degrees{
-    	NumberAnimation{
-    		duration: 5000
-    		onRunningChanged: {
-    			if (!running){
-    				root.degrees += 16*360
-    			}
-    		}
-    	}
+    NumberAnimation on rotation{
+        loops: Animation.Infinite
+        running: root.visible
+        duration: 4000;
+        from: 0
+        to: 360
     }
 }

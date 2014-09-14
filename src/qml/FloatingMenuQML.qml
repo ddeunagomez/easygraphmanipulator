@@ -9,6 +9,7 @@ FloatingMenu {
     y:0;
     visible: (target != null);
     property bool animate: true;
+    z:1000
 
     Grid { 
     	x: 0; y: 0
@@ -22,6 +23,9 @@ FloatingMenu {
         	animate: true
         	text: "Opt 1"
         	font.pointSize : 10
+            onClicked: {
+                nodesManager.newNode()
+            }
         }
         Button {
         	color: "red"
@@ -31,6 +35,9 @@ FloatingMenu {
         	animate: true
         	text: "Opt 2"
         	font.pointSize : 10
+            onClicked: {
+                target.setColorGUI()
+            }
         }
         Button {
         	color: "blue"
@@ -77,11 +84,3 @@ FloatingMenu {
         }
     }
 }
-/*FloatingMenu{
-    width: 30;
-    height: 30;
-    Rectangle {
-       width: 30; height: 30
-       color: "red"
-   }
-}*/

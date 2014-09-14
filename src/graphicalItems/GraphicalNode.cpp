@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QtGlobal>
 #include <QObject>
+#include <QColorDialog>
 
 #include "GraphicalNode.hpp"
 
@@ -28,9 +29,9 @@ GraphicalNode::GraphicalNode(QQuickItem* p)
 }
 
 void GraphicalNode::paint(QPainter* painter){
-	QPen pen(QColor("grey"), 0);
+	QPen pen(QColor("grey"), 1);
 	painter->setPen(pen);
-	painter->setBrush(QBrush("blue", Qt::SolidPattern));
+	painter->setBrush(QBrush(_color, Qt::SolidPattern));
 	painter->setRenderHints(QPainter::Antialiasing, true);
 	painter->drawEllipse(boundingRect());
 }
@@ -41,33 +42,55 @@ bool GraphicalNode::selected() const {
 
 void GraphicalNode::setSelected(bool s) {
 	_selected = s;
-	emit onSelectionChanged();
+	emit onSelectionChanged(s);
 }
 
+QColor GraphicalNode::color() const {
+	return _color;
+}
 
+void GraphicalNode::setColor(QColor c){
+	_color = c;
+	emit onColorChanged(c);
+	update();
+}
 
+void GraphicalNode::setColorGUI(){
+    _color = QColorDialog::getColor(_color, (QWidget*)this->parent(), "Color");
+    setColor(_color);
+}
+
+QString GraphicalNode::text() const {
+    return _text;
+}
+
+void GraphicalNode::setText(QString t){
+    _text = t;
+    emit onTextChanged(t);
+    update();
+}
 
 
 ActionIndicator::ActionIndicator(QQuickItem* p) 
-: QQuickPaintedItem(p), _degrees(0){
+: QQuickPaintedItem(p){
 	setFlag(QQuickItem::ItemHasContents, true);
 }
 
-
 void ActionIndicator::paint(QPainter* painter){
-	QPen pen2(QColor("yellow"),3);
+	QPen pen2(_color,3);
 	painter->setPen(pen2);
 	painter->setBrush(Qt::NoBrush);
 	painter->setRenderHints(QPainter::Antialiasing, true);
-	painter->drawArc(QRectF(1,1,width()-2,height()-2),_degrees,16*90);
-	painter->drawArc(QRectF(1,1,width()-2,height()-2),_degrees+16*180,16*90);
+	painter->drawArc(QRectF(1,1,width()-2,height()-2),0,16*90);
+	painter->drawArc(QRectF(1,1,width()-2,height()-2),0+16*180,16*90);
 }
 
-int ActionIndicator::degrees() const {
-	return _degrees;
+QColor ActionIndicator::color() const {
+	return _color;
 }
 
-void ActionIndicator::setDegrees(int d){
-	_degrees = d;
+void ActionIndicator::setColor(QColor c){
+	_color = c;
+	emit onColorChanged(c);
 	update();
 }

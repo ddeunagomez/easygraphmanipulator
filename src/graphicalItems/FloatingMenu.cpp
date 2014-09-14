@@ -14,7 +14,7 @@ void FloatingMenu::locateOnTarget() {
 	}
 	bool ret = QMetaObject::invokeMethod(this, "relocateMenu");
 	if (!ret)
-		qDebug() << "Error while calling relocateMenu on the QML side. " << __FILE__ << "  " <<__LINE__;
+        qWarning() << "Error while calling relocateMenu on the QML side. " << __FILE__ << "  " <<__LINE__;
 }
 
 
@@ -27,7 +27,7 @@ void FloatingMenu::setTarget(GraphicalNode* n) {
 		disconnect(_target);
 	_target = n;
 	if (_target != NULL) {
-		connect(_target, SIGNAL(onPositionChanged()), 
+		connect(_target, SIGNAL(onPositionChanged(int,int)), 
 			this, SLOT(locateOnTarget()));
 		emit onTargetNodeChanged();
 	}

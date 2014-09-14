@@ -4,15 +4,21 @@
 
 #include <QQuickItem>
 #include <QQuickView>
+#include <QList>
 #include "GraphicalNode.hpp"
 
-class GraphicalNodesManager {
+class GraphicalNodesManager : public QObject{
+    Q_OBJECT
+
 private:
 	QQuickView* view;
 	QQuickItem* parentItem;
+    QList<GraphicalNode*> _nodes;
 public:
 	GraphicalNodesManager(QQuickView* view, QQuickItem* parent);
-	GraphicalNode* newNode() const;
+public slots:
+    GraphicalNode* newNode();
+    GraphicalNode* nodeAt(int i) const;
 };
 
 

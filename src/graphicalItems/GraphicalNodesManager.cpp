@@ -5,6 +5,12 @@ GraphicalNodesManager::GraphicalNodesManager(QQuickView* view, QQuickItem* paren
 
 }
 
-GraphicalNode* GraphicalNodesManager::newNode() const {
-	return GraphicalNode::GraphicalNodeFactory(view,parentItem);
+GraphicalNode* GraphicalNodesManager::newNode() {
+    GraphicalNode* n = GraphicalNode::GraphicalNodeFactory(view,parentItem);
+    _nodes.append(n);
+    return n;
+}
+
+GraphicalNode* GraphicalNodesManager::nodeAt(int i) const {
+    return _nodes.at(i);
 }
